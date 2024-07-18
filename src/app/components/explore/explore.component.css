@@ -1,0 +1,99 @@
+/* Ensure the content is centered and does not coincide with the navbar */
+.main-content {
+ margin-top: 20px; /* Adjust this margin to the height of your navbar */
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+ justify-content: center;
+}
+
+/* Rectangle styling */
+.rectangle {
+ background-color: #f4f4f9; /* Background color for the rectangle */
+ border: 1px solid #ccc; /* Border for the rectangle */
+ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add some shadow for a nice effect */
+ width: 80%; /* Adjust width as needed */
+ margin: 10 auto; /* Center the rectangle */
+ padding: 20px;
+ border-radius: 8px; /* Rounded corners */
+}
+
+/* Center the table content */
+table {
+ width: 100%; /* Full width within the rectangle */
+ margin: 0 auto;
+ background-color: #f4f4f9; /* Background color for the table */
+ border-collapse: collapse; /* Ensure there are no gaps between table cells */
+}
+
+th, td {
+ padding: 12px; /* Adjust padding as needed */
+ height: 50px; /* Adjust height as needed */
+ border: 1px solid #ccc; /* Border for the cells */
+ background-color: #fff; /* Background color for the cells */
+}
+
+th {
+ background-color: #6b5b95; /* Background color for the header cells */
+ color: #fff; /* Text color for the header cells */
+}
+
+/* Ensure the table is responsive */
+@media (max-width: 768px) {
+ table {
+   width: 100%; /* Full width on smaller screens */
+ }
+}
+
+/* Center the search bar and dropdown */
+form {
+ width: 100%; /* Full width within the rectangle */
+ display: flex;
+ justify-content: center;
+ gap: 1rem;
+}
+
+/* Styles for the buttons */
+button, .button-3d {
+ background-color: #6b5b95; /* Your desired color */
+ color: white; /* Your desired color */
+ padding: 10px 20px;
+ border-radius: 5px;
+ transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+button:hover, .button-3d:hover {
+ transform: translateY(-3px);
+ box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:active, .button-3d:active {
+ transform: translateY(-1px);
+ box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Pagination controls */
+.pagination-controls {
+ width: 100%; /* Full width within the rectangle */
+ display: flex;
+ justify-content: space-between;
+ align-items: center;
+ margin-top: 20px;
+}
+
+/* Adjust the results per page dropdown and text */
+.results-per-page {
+ display: flex;
+ align-items: center;
+ gap: 0.5rem;
+}
+
+.results-per-page select {
+ padding: 5px;
+ border: 1px solid #ccc;
+ border-radius: 3px;
+}
+
+.results-per-page p {
+ margin: 0;
+}
