@@ -18,27 +18,77 @@ interface UserData {
   standalone: true,
   imports: [ChartModule],
   templateUrl: './user.component.html',
-  styleUrl: './user.component.css',
+  styleUrls: ['./user.component.css'],
 })
 export class UserComponent implements OnInit {
-  user: UserData | null = null;
+  user: UserData | null = null;  // Initialize as null
   basicData: any;
   basicOptions: any;
+
+  defaultUserData: UserData[] = [
+    {
+      id: 1,
+      name: 'John Doe',
+      workouts: [
+        { type: 'Running', minutes: 30 },
+        { type: 'Cycling', minutes: 45 },
+      ],
+    },
+    {
+      id: 2,
+      name: 'Jane Smith',
+      workouts: [
+        { type: 'Swimming', minutes: 60 },
+        { type: 'Running', minutes: 20 },
+      ],
+    },
+    {
+      id: 3,
+      name: 'Mike Johnson',
+      workouts: [
+        { type: 'Yoga', minutes: 50 },
+        { type: 'Cycling', minutes: 40 },
+      ],
+    },
+  ];
 
   constructor(private router: Router) {}
 
   ngOnInit() {
-    const username = this.router.url.split('/')[1];
-    const userData = JSON.parse(localStorage.getItem('userData') || '[]');
-    this.user = userData.find((user: UserData) => user.name === username) || null;
-    console.log(this.user);
+    // Retrieve existing user data from localStorage
+    let storedData: UserData[] = JSON.parse(localStorage.getItem('userData') || '[]');
+    const defaultUserNames = this.defaultUserData.map(user => user.name);
 
-    const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-    const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    // Check if localStorage is empty or does not contain default data
+    if (storedData.length === 0) {
+      // If no user data, store default data
+      localStorage.setItem('userData', JSON.stringify(this.defaultUserData));
+      storedData = [...this.defaultUserData];
+      console.log('Stored default user data in localStorage:', this.defaultUserData);
+    } else {
+      // If user data already exists, ensure default data is not duplicated
+      storedData = storedData.filter(user => !defaultUserNames.includes(user.name));
+      storedData = [...this.defaultUserData, ...storedData];
+      localStorage.setItem('userData', JSON.stringify(storedData));
+      console.log('Updated user data in localStorage:', storedData);
+    }
 
+    // Extract and decode username from URL
+    const encodedUsername = this.router.url.split('/')[1];
+    const username = decodeURIComponent(encodedUsername);
+    console.log('Extracted username:', username);
+
+    // Find user data from the list
+    this.user = storedData.find((user: UserData) => user.name === username) || null;
+    console.log('User data:', this.user);
+    
     if (this.user) {
+      // Set up chart data and options if user data is available
+      const documentStyle = getComputedStyle(document.documentElement);
+      const textColor = documentStyle.getPropertyValue('--text-color');
+      const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+      const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    
       this.basicData = {
         labels: this.user.workouts.map((workout) => workout.type),
         datasets: [
@@ -52,37 +102,39 @@ export class UserComponent implements OnInit {
           },
         ],
       };
-    }
 
-    this.basicOptions = {
-      plugins: {
-        legend: {
-          labels: {
-            color: textColor,
+      this.basicOptions = {
+        plugins: {
+          legend: {
+            labels: {
+              color: textColor,
+            },
           },
         },
-      },
-      scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: textColorSecondary,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              color: textColorSecondary,
+            },
+            grid: {
+              color: surfaceBorder,
+              drawBorder: false,
+            },
           },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
+          x: {
+            ticks: {
+              color: textColorSecondary,
+            },
+            grid: {
+              color: surfaceBorder,
+              drawBorder: false,
+            },
           },
         },
-        x: {
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
-      },
-    };
+      };
+    } else {
+      console.error('No user data found for username:', username);
+    }
   }
 }

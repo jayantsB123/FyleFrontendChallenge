@@ -57,7 +57,15 @@ export class ExploreComponent implements OnInit {
 
   ngOnInit() {
     const storedData = JSON.parse(localStorage.getItem('userData') || '[]');
-    this.userData = [...this.defaultUserData, ...storedData];
+  
+  // Combine and filter duplicates based on user ID
+  const combinedData = [...this.defaultUserData, ...storedData];
+  const uniqueData = combinedData.filter(
+    (user, index, self) =>
+      index === self.findIndex((t) => t.id === user.id)
+  );
+  
+  this.userData = uniqueData;
   }
 
   getWorkoutTypes(workouts: Workout[]): string {
