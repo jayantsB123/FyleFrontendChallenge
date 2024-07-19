@@ -78,14 +78,18 @@ workout-tracker/
 │   ├── app/
 │   │   ├── components/
 │   │   │   ├── add-workout/
-│   │   │   ├── workout-list/
-│   │   ├── services/
-│   │   │   ├── workout.service.ts
+│   │   │   ├── explore/
+│   │   │   ├── Home/
+│   │   │   ├── navbar/
+│   │   │   ├── user/
+│   │   ├── app.component.css
 │   │   ├── app.component.html
+│   │   ├── app.component.spec.ts
 │   │   ├── app.component.ts
-│   │   ├── app.module.ts
-│   ├── assets/
-│   ├── environments/
+│   │   ├── app.config.ts
+|   |   ├── app.routes.ts
+│   ├── index.html
+│   ├── maint.ts
 │   ├── styles.css
 ├── angular.json
 ├── package.json
