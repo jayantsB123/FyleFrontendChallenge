@@ -68,6 +68,16 @@ export class ExploreComponent implements OnInit {
   this.userData = uniqueData;
   }
 
+  addUser(user: UserData) {
+    // Add the new user to the local userData array
+    this.userData.push(user);
+    
+    // Save the updated userData to localStorage
+    const storedData = JSON.parse(localStorage.getItem('userData') || '[]');
+    storedData.push(user);
+    localStorage.setItem('userData', JSON.stringify(storedData));
+  }
+
   getWorkoutTypes(workouts: Workout[]): string {
     return workouts.map((workout) => workout.type).join(', ');
   }
